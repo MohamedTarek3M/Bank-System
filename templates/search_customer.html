@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Search Customer</h2>
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-warning text-white">
+                <h5 class="mb-0">Search by Username or User ID</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('search_customer') }}">
+                    <div class="mb-3">
+                        <label class="form-label">Search Term</label>
+                        <input type="text" class="form-control" name="search_term" placeholder="Enter username or user ID" required>
+                    </div>
+                    <button type="submit" class="btn btn-warning w-100">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if customer %}
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Customer Details</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>User ID:</strong> {{ customer[0] }}</p>
+                        <p><strong>Username:</strong> {{ customer[1] }}</p>
+                        <p><strong>Full Name:</strong> {{ customer[3] }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Email:</strong> {{ customer[4] }}</p>
+                        <p><strong>Balance:</strong> ${{ "%.2f"|format(customer[5]) }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if transactions %}
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Transaction History</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for trans in transactions %}
+                            <tr>
+                                <td>{{ trans[0] }}</td>
+                                <td>{{ trans[5] if trans[5] else 'N/A' }}</td>
+                                <td>
+                                    <span class="badge {% if trans[3] == 'Deposit' or trans[3] == 'Transfer In' %}bg-success{% else %}bg-danger{% endif %}">
+                                        {{ trans[3] }}
+                                    </span>
+                                </td>
+                                <td class="{% if trans[3] == 'Deposit' or trans[3] == 'Transfer In' %}text-success{% else %}text-danger{% endif %}">
+                                    {% if trans[3] == 'Deposit' or trans[3] == 'Transfer In' %}+{% else %}-{% endif %}${{ "%.2f"|format(trans[4]) }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+
+<div class="row mt-4">
+    <div class="col-12">
+        <a href="{{ url_for('employee_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}
+

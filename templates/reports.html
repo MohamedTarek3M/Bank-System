@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Generate Reports</h2>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Select Report Type</h5>
+            </div>
+            <div class="card-body">
+                <div class="btn-group" role="group">
+                    <a href="{{ url_for('reports', type='transactions') }}" class="btn {% if report_type == 'transactions' %}btn-primary{% else %}btn-outline-primary{% endif %}">Transactions Report</a>
+                    <a href="{{ url_for('reports', type='users') }}" class="btn {% if report_type == 'users' %}btn-primary{% else %}btn-outline-primary{% endif %}">Users Report</a>
+                    <a href="{{ url_for('reports', type='employees') }}" class="btn {% if report_type == 'employees' %}btn-primary{% else %}btn-outline-primary{% endif %}">Employees Report</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">
+                    {% if report_type == 'transactions' %}
+                        Transactions Report
+                    {% elif report_type == 'users' %}
+                        Users Report
+                    {% elif report_type == 'employees' %}
+                        Employees Report
+                    {% endif %}
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if data %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            {% if report_type == 'transactions' %}
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>User</th>
+                                <th>Employee</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                            </tr>
+                            {% elif report_type == 'users' %}
+                            <tr>
+                                <th>User ID</th>
+                                <th>Username</th>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Balance</th>
+                            </tr>
+                            {% elif report_type == 'employees' %}
+                            <tr>
+                                <th>Employee ID</th>
+                                <th>Username</th>
+                                <th>Full Name</th>
+                                <th>Role</th>
+                            </tr>
+                            {% endif %}
+                        </thead>
+                        <tbody>
+                            {% if report_type == 'transactions' %}
+                                {% for row in data %}
+                                <tr>
+                                    <td>{{ row[0] }}</td>
+                                    <td>{{ row[6] if row[6] else 'N/A' }}</td>
+                                    <td>{{ row[7] if row[7] else 'N/A' }}</td>
+                                    <td>
+                                        <span class="badge {% if row[3] == 'Deposit' or row[3] == 'Transfer In' %}bg-success{% else %}bg-danger{% endif %}">
+                                            {{ row[3] }}
+                                        </span>
+                                    </td>
+                                    <td>${{ "%.2f"|format(row[4]) }}</td>
+                                    <td>{{ row[5] if row[5] else 'N/A' }}</td>
+                                </tr>
+                                {% endfor %}
+                            {% elif report_type == 'users' %}
+                                {% for row in data %}
+                                <tr>
+                                    <td>{{ row[0] }}</td>
+                                    <td>{{ row[1] }}</td>
+                                    <td>{{ row[3] }}</td>
+                                    <td>{{ row[4] }}</td>
+                                    <td>${{ "%.2f"|format(row[5]) }}</td>
+                                </tr>
+                                {% endfor %}
+                            {% elif report_type == 'employees' %}
+                                {% for row in data %}
+                                <tr>
+                                    <td>{{ row[0] }}</td>
+                                    <td>{{ row[1] }}</td>
+                                    <td>{{ row[3] }}</td>
+                                    <td>{{ row[4] if row[4] else 'N/A' }}</td>
+                                </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">No data available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}
+

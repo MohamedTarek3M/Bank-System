@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Falling Coins Demo - Bank of Luck</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .demo-container {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .emoji {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .instructions {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+
+        .instructions h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .instructions ul {
+            list-style: none;
+            text-align: left;
+        }
+
+        .instructions li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .instructions li::before {
+            content: "💰";
+            position: absolute;
+            left: 0;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 1rem;
+            border-radius: 10px;
+            flex: 1;
+        }
+
+        .stat-box h3 {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .stat-box p {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="demo-container">
+        <span class="emoji">🏦</span>
+        <h1>Bank of Luck</h1>
+        <p>Watch the money rain down! Move your mouse to interact with the falling coins.</p>
+
+        <div class="instructions">
+            <h2>✨ Features</h2>
+            <ul>
+                <li>Realistic falling coin animation</li>
+                <li>Gold and silver coins with 3D effects</li>
+                <li>Mouse interaction - coins are repelled by cursor</li>
+                <li>Smooth physics and wobble effects</li>
+                <li>Optimized performance with canvas rendering</li>
+            </ul>
+        </div>
+
+        <div class="stats">
+            <div class="stat-box">
+                <h3>COINS FALLING</h3>
+                <p>30</p>
+            </div>
+            <div class="stat-box">
+                <h3>INTERACTION</h3>
+                <p>100px</p>
+            </div>
+            <div class="stat-box">
+                <h3>TYPES</h3>
+                <p>2</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../static/js/falling-coins.js"></script>
+</body>
+
+</html>

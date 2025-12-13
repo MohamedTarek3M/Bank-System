@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Transfer Funds - Bank System{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">💸 Transfer Funds</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info mb-3">
+                    <strong>Your Balance:</strong> ${{ "%.2f"|format(balance if balance else 0) }}
+                </div>
+                <form method="POST" action="{{ url_for('transfer') }}" id="transferForm">
+                    <div class="mb-3">
+                        <label for="recipient" class="form-label">Recipient Username</label>
+                        <input type="text" class="form-control" id="recipient" name="recipient" required
+                            placeholder="Enter recipient username" minlength="3" maxlength="50"
+                            aria-label="Recipient username" aria-required="true">
+                    </div>
+                    <div class="mb-3">
+                        <label for="amount" class="form-label">Amount ($)</label>
+                        <input type="number" class="form-control" id="amount" name="amount" required
+                            placeholder="Enter amount" step="0.01" min="0.01" max="{{ balance if balance else 0 }}"
+                            aria-label="Transfer amount" aria-required="true">
+                        <small class="form-text text-muted">Minimum: $0.01, Maximum: ${{ "%.2f"|format(balance if
+                            balance else 0) }}</small>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Transfer</button>
+                        <a href="{{ url_for('user_dashboard') }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Pass balance from server to JavaScript
+    const userBalance = {{ (balance | float) if balance else 0 }};
+
+    // Form validation
+    document.addEventListener('DOMContentLoaded', function () {
+        const transferForm = document.getElementById('transferForm');
+
+        transferForm.addEventListener('submit', function (e) {
+            const recipient = document.getElementById('recipient').value.trim();
+            const amount = parseFloat(document.getElementById('amount').value);
+
+            // Validate recipient username
+            if (recipient.length < 3) {
+                e.preventDefault();
+                alert('Recipient username must be at least 3 characters!');
+                return false;
+            }
+
+            // Validate amount is a number
+            if (isNaN(amount) || amount <= 0) {
+                e.preventDefault();
+                alert('Please enter a valid amount greater than 0!');
+                return false;
+            }
+
+            // Validate minimum amount
+            if (amount < 0.01) {
+                e.preventDefault();
+                alert('Minimum transfer amount is $0.01!');
+                return false;
+            }
+
+            // Validate sufficient balance
+            if (amount > userBalance) {
+                e.preventDefault();
+                alert('Insufficient balance! Your balance: $' + userBalance.toFixed(2));
+                return false;
+            }
+
+            // Confirm transfer
+            const confirmMsg = 'Are you sure you want to transfer $' + amount.toFixed(2) + ' to ' + recipient + '?';
+            if (!confirm(confirmMsg)) {
+                e.preventDefault();
+                return false;
+            }
+
+            return true;
+        });
+    });
+</script>
+{% endblock %}

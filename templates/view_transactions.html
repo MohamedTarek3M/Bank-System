@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>All Transactions</h2>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">System Transactions</h5>
+            </div>
+            <div class="card-body">
+                {% if transactions %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>User</th>
+                                <th>User Full Name</th>
+                                <th>Employee</th>
+                                <th>Employee Full Name</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for trans in transactions %}
+                            <tr>
+                                <td>{{ trans[0] }}</td>
+                                <td>{{ trans[6] if trans[6] else 'N/A' }}</td>
+                                <td>{{ trans[7] if trans[7] else 'N/A' }}</td>
+                                <td>{{ trans[8] if trans[8] else 'N/A' }}</td>
+                                <td>{{ trans[9] if trans[9] else 'N/A' }}</td>
+                                <td>
+                                    <span class="badge {% if trans[3] == 'Deposit' or trans[3] == 'Transfer In' %}bg-success{% else %}bg-danger{% endif %}">
+                                        {{ trans[3] }}
+                                    </span>
+                                </td>
+                                <td class="{% if trans[3] == 'Deposit' or trans[3] == 'Transfer In' %}text-success{% else %}text-danger{% endif %}">
+                                    {% if trans[3] == 'Deposit' or trans[3] == 'Transfer In' %}+{% else %}-{% endif %}${{ "%.2f"|format(trans[4]) }}
+                                </td>
+                                <td>{{ trans[5] if trans[5] else 'N/A' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">No transactions found.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}
+

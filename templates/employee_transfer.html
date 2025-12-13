@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Transfer Funds (Employee)</h2>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Transfer Between Accounts</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('employee_transfer') }}">
+                    <div class="mb-3">
+                        <label class="form-label">Sender Username</label>
+                        <input type="text" class="form-control" name="sender_username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Recipient Username</label>
+                        <input type="text" class="form-control" name="recipient_username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Amount</label>
+                        <input type="number" step="0.01" min="0.01" class="form-control" name="amount" required>
+                    </div>
+                    <button type="submit" class="btn btn-info w-100">Transfer Funds</button>
+                    <a href="{{ url_for('employee_dashboard') }}" class="btn btn-secondary w-100 mt-2">Back to Dashboard</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="mb-3">Admin Dashboard</h2>
+        <p class="text-muted">Welcome, {{ admin[3] if admin else 'Administrator' }}!</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-lg border-primary h-100">
+            <div class="card-body text-center">
+                <h5 class="card-title text-primary mb-4">Manage Employees</h5>
+                <p class="text-muted">Add, edit, or remove employees</p>
+                <a href="{{ url_for('manage_employees') }}" class="btn btn-primary mt-3">Go to Manage Employees</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-lg border-success h-100">
+            <div class="card-body text-center">
+                <h5 class="card-title text-success mb-4">Generate Reports</h5>
+                <p class="text-muted">View system reports and statistics</p>
+                <a href="{{ url_for('reports') }}" class="btn btn-success mt-3">Go to Reports</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-lg border-info h-100">
+            <div class="card-body text-center">
+                <h5 class="card-title text-info mb-4">View All Transactions</h5>
+                <p class="text-muted">Monitor all system transactions</p>
+                <a href="{{ url_for('view_transactions') }}" class="btn btn-info mt-3">View Transactions</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

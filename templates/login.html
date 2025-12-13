@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Login - Bank System{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="text-end mb-3">
+            <button class="btn btn-sm btn-outline-primary theme-toggle" title="Toggle Dark/Light Mode"
+                aria-label="Toggle theme">
+                <img src="{{ url_for('static', filename='img/Icon/Dark_Mode.svg') }}" class="theme-icon"
+                    alt="Theme Icon" style="width: 20px; height: 20px;"
+                    data-light-dest="{{ url_for('static', filename='img/Icon/Light_Mode.svg') }}"
+                    data-dark-dest="{{ url_for('static', filename='img/Icon/Dark_Mode.svg') }}">
+            </button>
+        </div>
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white text-center">
+                <h4 class="mb-0">🏦 Login</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/" id="loginForm">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required
+                            placeholder="Enter your username" autofocus minlength="3" maxlength="50"
+                            aria-label="Username" aria-required="true">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password" name="password" required
+                                placeholder="Enter your password" autocomplete="current-password" minlength="6"
+                                aria-label="Password" aria-required="true">
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword"
+                                aria-label="Toggle password visibility">
+                                <img src="{{ url_for('static', filename='img/Icon/Visibility_On.svg') }}"
+                                    id="toggleIcon" class="visibility-icon" alt="Show Password"
+                                    style="width: 20px; height: 20px;"
+                                    data-visible="{{ url_for('static', filename='img/Icon/Visibility_On.svg') }}"
+                                    data-hidden="{{ url_for('static', filename='img/Icon/Visibility_Off.svg') }}">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="user_type" class="form-label">Login As</label>
+                        <select class="form-select" id="user_type" name="user_type" required aria-label="User type"
+                            aria-required="true">
+                            <option value="">Select user type...</option>
+                            <option value="user">Customer</option>
+                            <option value="employee">Employee</option>
+                            <option value="admin">Administrator</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Password visibility toggle
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const passwordInput = document.getElementById('password');
+        const toggleIcon = document.getElementById('toggleIcon');
+        const visibleIcon = toggleIcon.getAttribute('data-visible');
+        const hiddenIcon = toggleIcon.getAttribute('data-hidden');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.src = hiddenIcon;
+            toggleIcon.alt = 'Hide Password';
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.src = visibleIcon;
+            toggleIcon.alt = 'Show Password';
+        }
+    });
+
+    // Form validation
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        const userType = document.getElementById('user_type').value;
+
+        if (!username || !password || !userType) {
+            e.preventDefault();
+            alert('All fields are required!');
+            return false;
+        }
+
+        if (username.length < 3) {
+            e.preventDefault();
+            alert('Username must be at least 3 characters!');
+            return false;
+        }
+
+        if (password.length < 6) {
+            e.preventDefault();
+            alert('Password must be at least 6 characters!');
+            return false;
+        }
+    });
+</script>
+{% endblock %}

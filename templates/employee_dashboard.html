@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="mb-3">Employee Dashboard</h2>
+        <p class="text-muted">Welcome, {{ employee[3] if employee else 'Employee' }}!</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-lg border-primary h-100">
+            <div class="card-body text-center">
+                <h5 class="card-title text-primary mb-4">
+                    <i class="bi bi-person-plus"></i> Add Customer
+                </h5>
+                <p class="text-muted">Create new customer accounts</p>
+                <a href="{{ url_for('add_customer') }}" class="btn btn-primary mt-3">Go to Add Customer</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-lg border-success h-100">
+            <div class="card-body text-center">
+                <h5 class="card-title text-success mb-4">Deposit Money</h5>
+                <p class="text-muted">Process customer deposits</p>
+                <a href="{{ url_for('transaction', action='Deposit') }}" class="btn btn-success mt-3">Go to Deposit</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-lg border-danger h-100">
+            <div class="card-body text-center">
+                <h5 class="card-title text-danger mb-4">Withdraw Money</h5>
+                <p class="text-muted">Process customer withdrawals</p>
+                <a href="{{ url_for('transaction', action='Withdraw') }}" class="btn btn-danger mt-3">Go to Withdraw</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-lg border-info h-100">
+            <div class="card-body text-center">
+                <h5 class="card-title text-info mb-4">Transfer Funds</h5>
+                <p class="text-muted">Transfer between accounts</p>
+                <a href="{{ url_for('employee_transfer') }}" class="btn btn-info mt-3">Go to Transfer</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-lg border-warning h-100">
+            <div class="card-body text-center">
+                <h5 class="card-title text-warning mb-4">Search Customer</h5>
+                <p class="text-muted">View customer details</p>
+                <a href="{{ url_for('search_customer') }}" class="btn btn-warning mt-3">Go to Search</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
