@@ -27,8 +27,9 @@ EMAIL_PATTERN = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
 
 # Egypt Timezone (UTC+2) - Helper function
 def get_egypt_time():
-    """Returns the current time in Egypt (UTC+2)."""
-    return datetime.now(timezone.utc) + timedelta(hours=2)
+    """Returns the current time in Egypt (UTC+2) formatted as YYYY-MM-DD HH:MM:SS."""
+    timeNow = datetime.now()
+    return timeNow.strftime('%Y-%m-%d %H:%M:%S')
 
 # Helper Functions
 def validate_amount(amount_str):
